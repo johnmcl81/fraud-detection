@@ -1,28 +1,34 @@
 // Order is a base class
 class Order {
   constructor (order) {
-    this.orderId = order.orderId
-    this.dealId = order.dealId
-    this.email = order.email
-    this.street = order.street
-    this.city = order.city
-    this.state = order.state
-    this.zipCode = order.zipCode
-    this.creditCard = order.creditCard
+    this.orderId = Number(order.orderId)
+    this.dealId = Number(order.dealId)
+    this.email = order.email ? order.email.toLowerCase() : null
+    this.street = order.street ? order.street.toLowerCase() : null
+    this.city = order.city ? order.city.toLowerCase() : null
+    this.state = order.state ? order.state.toLowerCase() : null
+    this.zipCode = order.zipCode ? order.zipCode : null
+    this.creditCard = order.creditCard ? order.creditCard : null
   }
 
   normalize () {
     // Normalize email
-    let aux = this.email.split('@')
-    let atIndex = aux[0].indexOf('+')
-    aux[0] = atIndex < 0 ? aux[0].replace('.', '') : aux[0].replace('.', '').substring(0, atIndex - 1)
-    this.email = aux.join('@')
+    if (this.email) {
+      let aux = this.email.split('@')
+      let atIndex = aux[0].indexOf('+')
+      aux[0] = atIndex < 0 ? aux[0].replace('.', '') : aux[0].replace('.', '').substring(0, atIndex - 1)
+      this.email = aux.join('@')
+    }
 
     // Normalize street
-    this.street = this.street.replace('st.', 'street').replace('rd.', 'road')
+    if (this.street) {
+      this.street = this.street.replace('st.', 'street').replace('rd.', 'road')
+    }
 
     // Normalize state
-    this.state = this.street.replace('il', 'illinois').replace('ca', 'california').replace('ny', 'new york')
+    if (this.state) {
+      this.state = this.street.replace('il', 'illinois').replace('ca', 'california').replace('ny', 'new york')
+    }
   }
 }
 
