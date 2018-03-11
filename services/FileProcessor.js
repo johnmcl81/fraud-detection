@@ -4,7 +4,7 @@ const Order = require('../models/Order.js')
 
 class FileProccesor {
   constructor (fileName) {
-    this.filePath = config.baseFilePath + fileName
+    this.filePath = config.paths.baseFilePath + fileName
   }
 
   getOrders () {

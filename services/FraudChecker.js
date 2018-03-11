@@ -1,4 +1,5 @@
 const helpers = require('../helpers/helpers.js')
+const config = require('../config')
 
 class FraudChecker {
   constructor (ordersList) {
@@ -16,10 +17,16 @@ class FraudChecker {
         for (let j = i + 1; j < this.orders.length; j++) {
           isFraudulent = false
           let next = this.orders[j]
+
+          // Check order has all non null entries
           let isInvalid = helpers.hasNull(next)
-          let isRepeatedEmailAndCard = this.isRepeatedEmailAndCard(current, next)
+
+          // Perform validation checks based on rules defined in config
+          let isRepeatedEmail = this.isRepeatedEmail(current, next)
           let isRepeatedAddress = this.isRepeatedAddress(current, next)
-          if (isInvalid || isRepeatedEmailAndCard || isRepeatedAddress) {
+
+          // Set isFraudulent depending on rule results
+          if (isInvalid || isRepeatedEmail || isRepeatedAddress) {
             isFraudulent = true
           }
 
@@ -43,19 +50,28 @@ class FraudChecker {
   }
 
   isRepeatedAddress (current, next) {
-    if (current.dealId === next.dealId && current.state === next.state && current.zipCode === next.zipCode && current.street === next.street && current.city === next.city && current.creditCard !== next.creditCard) {
-      return true
-    } else {
-      return false
-    }
+    return this.checkRule(config.rules.addressCheck, current, next)
   }
 
-  isRepeatedEmailAndCard (current, next) {
-    if (current.dealId === next.dealId && current.email === next.email && current.creditCard !== next.creditCard) {
-      return true
-    } else {
-      return false
+  isRepeatedEmail (current, next) {
+    return this.checkRule(config.rules.emailCheck, current, next)
+  }
+
+  checkRule (rule, current, next) {
+    let conditionsMet = []
+    for (var property in rule) {
+      if (rule.hasOwnProperty(property)) {
+        if ((rule[property] === true && current[property] === next[property]) || (rule[property] === false && current[property] !== next[property])) {
+          conditionsMet.push(true)
+        } else {
+          conditionsMet.push(false)
+        }
+      }
     }
+    let ruleMet = conditionsMet.every(function (item, index, array) {
+      return item === true
+    })
+    return ruleMet
   }
 }
 

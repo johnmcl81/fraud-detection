@@ -1,7 +1,23 @@
 const path = require('path')
 
-const config = {
+const paths = {
   baseFilePath: path.join(__dirname, 'Files/')
 }
 
-module.exports = config
+const rules = {
+  addressCheck: {
+    dealId: true,
+    state: true,
+    zipCode: true,
+    street: true,
+    city: true,
+    creditCard: false
+  },
+  emailCheck: {
+    dealId: true,
+    email: true,
+    creditCard: false
+  }
+}
+
+module.exports = {paths, rules}

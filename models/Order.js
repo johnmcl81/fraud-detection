@@ -15,9 +15,13 @@ class Order {
     // Normalize email
     if (this.email) {
       let aux = this.email.split('@')
-      let atIndex = aux[0].indexOf('+')
-      aux[0] = atIndex < 0 ? aux[0].replace('.', '') : aux[0].replace('.', '').substring(0, atIndex - 1)
-      this.email = aux.join('@')
+      if (aux.length > 1) {
+        let atIndex = aux[0].indexOf('+')
+        aux[0] = atIndex < 0 ? aux[0].replace('.', '') : aux[0].replace('.', '').substring(0, atIndex - 1)
+        this.email = aux.join('@')
+      } else {
+        this.email = null
+      }
     }
 
     // Normalize street
