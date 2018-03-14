@@ -1,4 +1,3 @@
-// Order is a base class
 class Order {
   constructor (order) {
     this.orderId = Number(order.orderId)
@@ -12,7 +11,6 @@ class Order {
   }
 
   normalize () {
-    // Normalize email
     if (this.email) {
       let aux = this.email.split('@')
       if (aux.length > 1) {
@@ -24,12 +22,10 @@ class Order {
       }
     }
 
-    // Normalize street
     if (this.street) {
       this.street = this.street.replace('st.', 'street').replace('rd.', 'road')
     }
 
-    // Normalize state
     if (this.state) {
       this.state = this.street.replace('il', 'illinois').replace('ca', 'california').replace('ny', 'new york')
     }

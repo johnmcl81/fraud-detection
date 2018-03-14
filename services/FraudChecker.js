@@ -25,15 +25,12 @@ class FraudChecker {
           let isRepeatedEmail = this.isRepeatedEmail(current, next)
           let isRepeatedAddress = this.isRepeatedAddress(current, next)
 
-          // Set isFraudulent depending on rule results
-          if (isInvalid || isRepeatedEmail || isRepeatedAddress) {
-            isFraudulent = true
-          }
+          isFraudulent = isInvalid || isRepeatedEmail || isRepeatedAddress
 
           if (typeof isFraudulent === 'undefined') {
             throw TypeError('isFraudulent is not defined')
           } else {
-            if (isFraudulent) {
+            if (isFraudulent && next) {
               fraudResults.push({
                 isFraudulent: true,
                 orderId: next.orderId
