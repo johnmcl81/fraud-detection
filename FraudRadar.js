@@ -11,7 +11,7 @@ class FraudRadar {
   check () {
     let fraudResults = []
     // CHECK ORDERS LIST FOR FRAUD
-    if (this.orders && this.orders.size !== 0) {
+    if (this.orders && this.orders.length !== 0) {
       fraudResults = new FraudChecker(this.orders).fraudResults()
       console.log('fraudResults: ' + util.inspect(fraudResults))
     } else {
