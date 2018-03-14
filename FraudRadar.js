@@ -5,7 +5,7 @@ const util = require('util')
 class FraudRadar {
   // required options (fileName)
   constructor (options) {
-    this.orders = new FileProcessor(options.fileName).getOrders()
+    this.orders = new FileProcessor(options.fileName).parseDataList('orders')
   }
 
   check () {
